@@ -15,7 +15,7 @@ function App() {
     try {
       setLoading(true)
       // Call backend endpoint with the image prompt
-      const resp = await fetch("http://localhost:5000/api/generate-image", {
+      const resp = await fetch("https://runwarebackend.onrender.com/api/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: imagePrompt }),
@@ -38,7 +38,7 @@ function App() {
     try {
       setLoading(true)
       // Submit the request, returns taskUUID (not the final video yet)
-      const resp = await fetch("http://localhost:5000/api/generate-video", {
+      const resp = await fetch("https://runwarebackend.onrender.com/api/generate-video", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: videoPrompt }),
@@ -50,7 +50,7 @@ function App() {
       let ready = false
       while (!ready) {
         await new Promise((r) => setTimeout(r, 5000)) // wait 5 sec
-        const poll = await fetch("http://localhost:5000/api/video-status", {
+        const poll = await fetch("https://runwarebackend.onrender.com/api/video-status", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ taskUUID }),
