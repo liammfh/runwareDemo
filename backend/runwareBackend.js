@@ -98,7 +98,7 @@ app.post("/api/generate-video", async (req, res) => {
     const result = runwareResp.data?.[0];
 
     res.json({
-      taskUUID, // <— return the locally generated UUID
+      taskUUID: result?.taskUUID,
       status: result?.status,
       cost: result?.cost,
     });
