@@ -74,15 +74,14 @@ app.post("/api/generate-image", async (req, res) => {
 app.post("/api/generate-video", async (req, res) => {
   try {
     const { prompt } = req.body;
-    const taskUUID = uuidv4();
+    const taskUUID = uuidv4(); // locally generated
 
-    // Define video generation task
     const tasks = [
       {
         taskType: "videoInference",
         taskUUID,
         positivePrompt: prompt,
-        model: "klingai:5@3",   // Video model
+        model: "klingai:5@3",
         duration: 5,
         width: 1920,
         height: 1080,
@@ -91,7 +90,7 @@ app.post("/api/generate-video", async (req, res) => {
         outputType: "URL",
         outputQuality: 95,
         includeCost: true,
-        deliveryMethod: "async", // Must poll for final result
+        deliveryMethod: "async",
       },
     ];
 
@@ -99,12 +98,12 @@ app.post("/api/generate-video", async (req, res) => {
     const result = runwareResp.data?.[0];
 
     res.json({
-      taskUUID: result.taskUUID,
-      status: result.status,
-      cost: result.cost,
+      taskUUID, // <— return the locally generated UUID
+      status: result?.status,
+      cost: result?.cost,
     });
   } catch (err) {
-    console.error("Video generation error:", err.response?.data || err.message);
+    console.error(" Video generation error:", err.response?.data || err.message);
     res.status(500).json({ error: "Video generation failed" });
   }
 });
